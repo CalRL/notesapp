@@ -1,10 +1,16 @@
 "use client";
 
+import { redirect } from "next/navigation";
 import { createDefaultNote, Note, NoteProperties } from "./components/Note";
 import { useState } from "react";
 
 export default function Home() {
   const [notes, setNotes] = useState<NoteProperties[]>([]);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+
+  if (!loggedIn) {
+    redirect("/register");
+  }
 
   function handleClick(): void {
     const newNote = createDefaultNote();
