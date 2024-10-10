@@ -1,12 +1,38 @@
 "use client";
 import { useState } from "react";
+
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = (): void => {
-    console.log(username, email, password);
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const clearFields = (): void => {};
+  const handleRegister = async (): Promise<void> => {
+    try {
+      const response = await fetch("/notes/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (response.ok) {
+        setSuccessMessage("Account successfully created.");
+        setError("");
+      } else {
+        const errorData = await response.json();
+        setError(
+          errorData.error || "Failed to create account. Try again later"
+        );
+      }
+    } catch (error: any) {
+      console.error(error);
+      setError("An unexpected error occured. Please try again later");
+    }
   };
 
   return (
@@ -57,6 +83,18 @@ export default function Register() {
           >
             Continue
           </button>
+
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          {successMessage && (
+            <p className="text-green-500 text-center">{successMessage}</p>
+          )}
+
+          <div className="flex justify-center">
+            Already have an account?
+            <a className="ml-1" href="login">
+              Sign in
+            </a>
+          </div>
         </div>
       </div>
     </div>
