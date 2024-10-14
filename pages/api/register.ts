@@ -13,7 +13,7 @@ export default async function handler(
 
   const { username, email, password } = req.body;
 
-  if (!username && !email && !password) {
+  if (!username || !email || !password) {
     return res.status(400).json({ message: "Missing params" });
   }
   try {
@@ -22,13 +22,13 @@ export default async function handler(
       .insert([{ username, email, password }]);
 
     if (error) {
-      console.error(`Error inserting user ${username}`);
       return res
         .status(500)
         .json({ message: `Failed to create user... ${error.message}` });
     }
   } catch (error: any) {
-    console.error("Unexpected error: " + error);
-    return res.status(500).json({ error: "An unexpected error occured." });
+    return res
+      .status(500)
+      .json({ error: `An unexpected error occured. ${error.message}` });
   }
 }

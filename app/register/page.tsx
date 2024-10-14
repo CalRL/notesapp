@@ -20,6 +20,12 @@ export default function Register() {
         body: JSON.stringify({ username, email, password }),
       });
 
+      const contentType = response.headers.get("content-type");
+
+      if (contentType && !contentType.includes("application/json")) {
+        console.log("Response was not JSON");
+      }
+
       if (response.ok) {
         setSuccessMessage("Account successfully created.");
         setError("");
@@ -31,14 +37,16 @@ export default function Register() {
       }
     } catch (error: any) {
       console.error(error);
-      setError("An unexpected error occured. Please try again later");
+      setError(
+        "An unexpected error occured. Please try again later (frontend)."
+      );
     }
   };
 
   return (
     <div>
       <div className="flex justify-center w-full h-screen overflow-hidden mt-16">
-        <div className="rounded-lg shadow-sm box-border w-[20%] h-[28rem] space-y-4 text-gray-700">
+        <div className="rounded-lg shadow-sm box-border w-[20%] h-[28rem] space-y-4 text-gray-700 dark:text-gray-200">
           <span className="block mt-4 text-center text-3xl font-semibold">
             Register
           </span>
@@ -68,7 +76,7 @@ export default function Register() {
           <div className="w-[60%] mx-auto">
             <span className="text-lg font-semibold">Password</span>
             <input
-              className="block w-full box-border border-[1px] border-gray-700 rounded-md px-2 py-2"
+              className="block w-full box-border border-[1px] border-gray-700 rounded-md px-2 py-2 "
               placeholder="Password"
               type="password"
               onChange={(e) => {
