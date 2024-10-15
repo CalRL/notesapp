@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import DarkMode from "../components/DarkMode";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -45,6 +46,7 @@ export default function Register() {
 
   return (
     <div>
+      <DarkMode />
       <div className="flex justify-center w-full h-screen overflow-hidden mt-16">
         <div className="rounded-lg shadow-sm box-border w-[20%] h-[28rem] space-y-4 text-gray-700 dark:text-gray-200">
           <span className="block mt-4 text-center text-3xl font-semibold">
